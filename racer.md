@@ -1,8 +1,8 @@
 ---
 layout: a-frame
-title: Track
+title: A-Frame Racer
 description: A-Frame Demo
-image: ./images/track-screenshot.jpg
+image: ./icon512.png
 scripts: [
 
 	'scripts/init-service-worker.js',
