@@ -2,7 +2,8 @@
 layout: a-frame
 title: A-Frame Racer
 description: A-Frame Demo
-image: ./icon512.png
+image: https://samsunginternet.github.io/a-frame-demos/icon512-racer.png
+meta: racer
 scripts: [
 
 	'scripts/init-service-worker.js',
