@@ -108,7 +108,7 @@ scripts: [
 		currentFloor.normal.copy(yAxis);
 		for (var i in curves) {
 			var d = getCurveFromTrack(curves[i]).closestPointInLocalSpace(p);
-			if (d.distance < 10) {
+			if (d.distance < 6) {
 				if (d.location.y > currentFloor.height) {
 					currentFloor.height = d.location.y;
 					currentFloor.normal.copy(d.normal);
