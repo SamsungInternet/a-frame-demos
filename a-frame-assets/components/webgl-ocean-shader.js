@@ -7,6 +7,9 @@
  *
  */
 
+
+// <a-ada-ocean position="0 0 0" src="#water-normal" opacity="0.6" width="1000" depth="1000"></a-ada-ocean>
+
 function colorParse(str) {
 	return (new THREE.Color(str)).getHex();
 }

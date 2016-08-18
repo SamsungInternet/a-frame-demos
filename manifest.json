@@ -1,0 +1,20 @@
+{
+  "name": "WebVR Demos",
+  "icons": [
+    {
+      "src": "icon512.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/racer.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "white",
+  "theme_color": "#8953D8"
+}
