@@ -57,7 +57,7 @@ scripts: [
 
 			<!-- this rolled by the controller -->
 			<a-obj-model src="#Feisar-ship-obj" mtl="#Feisar-ship-mtl" position="0 0.2 0" scale="0.3 0.3 0.3" rotation id="ship">
-				<a-torus-knot position="0 4 -5" material="shader: super-standard; sphericalEnvMap: #cgsky; color: #8ab39f; normalMap: #water-normal; metalness: 1; roughness: 0.2; normalTextureRepeat: 50 50 50; opacity: 0.8;"></a-torus-knot>
+				<!--<a-torus-knot position="0 4 -5" material="shader: super-standard; sphericalEnvMap: #cgsky; color: #8ab39f; normalMap: #water-normal; metalness: 1; roughness: 0.2; normalTextureRepeat: 50 50 50; opacity: 0.8;"></a-torus-knot>-->
 			</a-obj-model>
 		</a-entity>
 	</a-entity>
@@ -71,19 +71,26 @@ scripts: [
 
 	<!-- TRACK -->
 
-	<a-curve id="track" curve="CatmullRom">
+	<a-curve id="track1" curve="CatmullRom">
 		<a-curve-point position="30 -10 0"></a-curve-point>
 		<a-curve-point position="0 0 0"></a-curve-point>
 		<a-curve-point position="-60 4 30"></a-curve-point>
 		<a-curve-point position="-60 10 60"></a-curve-point>
 		<a-curve-point position="-60 10 120"></a-curve-point>
-		<a-curve-point position="-60 50 180"></a-curve-point>
-		<a-curve-point position="-60 10 240"></a-curve-point>
+		<a-curve-point position="-60 30 180"></a-curve-point>
+	</a-curve>
+
+	<a-curve id="track2" curve="CatmullRom">
+		<a-curve-point position="-60 10 180"></a-curve-point>
+		<a-curve-point position="-60 10 260"></a-curve-point>
+		<a-curve-point position="0 10 280"></a-curve-point>
 	</a-curve>
 
 	<!--<a-draw-curve curve="#track" material="shader: line; color: red;"></a-draw-curve>-->
 
-	<a-entity floor-track clone-along-curve="curve: #track; spacing: 6; scale: 1.5 1 2;" obj-model="obj: #race-track-obj; mtl: #race-track-mtl;"></a-entity>
+	<a-entity floor-track clone-along-curve="curve: #track1; spacing: 6; scale: 1.5 1 2;" obj-model="obj: #race-track-obj; mtl: #race-track-mtl;"></a-entity>
+
+	<a-entity floor-track clone-along-curve="curve: #track2; spacing: 6; scale: 1.5 1 2;" obj-model="obj: #race-track-obj; mtl: #race-track-mtl;"></a-entity>
 
 </a-scene>
 
@@ -93,27 +100,48 @@ scripts: [
 
 	var shipControllerEl = document.querySelector('[ship-controller]');
 	var curves = Array.from(document.querySelectorAll('[floor-track]'));
-	var gravity = 20;
+	var gravity = 60;
 	var __tempVector1 = new THREE.Vector3();
 	var __tempVector2 = new THREE.Vector3();
 	var yAxis = new THREE.Vector3(0, 1, 0);
 	var __tempQuaternion = new THREE.Quaternion();
+	var shipReturnTimeout;
 
 	var currentFloor = {
 		height: 0,
-		normal: new THREE.Vector3()
+		normal: new THREE.Vector3(),
+		lastPoint: new THREE.Vector3(),
+		lastTangent: new THREE.Vector3()
+	}
+
+	function returnShip() {
+		shipControllerEl.setAttribute('position', currentFloor.lastPoint);
+		shipControllerEl.components['ship-controller'].velocity.set(0, 0, 0);
+		shipReturnTimeout = null;
 	}
 
 	function updateCurrentFloor(p) {
 		currentFloor.height = 0;
 		currentFloor.normal.copy(yAxis);
+		var isOnTrack = false;
 		for (var i in curves) {
 			var d = getCurveFromTrack(curves[i]).closestPointInLocalSpace(p);
 			if (d.distance < 6) {
+				isOnTrack = true;
 				if (d.location.y > currentFloor.height) {
 					currentFloor.height = d.location.y;
 					currentFloor.normal.copy(d.normal);
+					currentFloor.lastPoint.copy(d.location);
+					currentFloor.lastTangent.copy(d.tangent);
 				}
+			}
+		}
+		if(!isOnTrack) {
+			if (!shipReturnTimeout) shipReturnTimeout = setTimeout(returnShip, 3000);
+		} else {
+			if (shipReturnTimeout) {
+				clearTimeout(shipReturnTimeout);
+				shipReturnTimeout = null;
 			}
 		}
 	}
@@ -144,17 +172,20 @@ scripts: [
 			output.textContent = `${currentFloor.height}`;
 
 			if (p.y < currentFloor.height) {
-
-				p.y = currentFloor.height;
-				shipControllerEl.setAttribute('position', p);
+				var underground = currentFloor.height - p.y;
 
 				this.restoreNormalAmount = 0.3;
 
 				__tempVector1.copy(shipController.velocity);
 
-				__tempVector1.y = 0;
+				__tempVector1.add(currentFloor.normal.multiplyScalar(
+					Math.max(-currentFloor.normal.dot(shipController.velocity), 0.01)
+				));
 
-				__tempVector1.add(currentFloor.normal.multiplyScalar(0.1));
+				if (underground > 2) {
+					p.y = currentFloor.height;
+					shipControllerEl.setAttribute('position', p);
+				}
 
 				shipController.velocity.copy(__tempVector1);
 			}
