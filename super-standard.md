@@ -14,7 +14,10 @@ scripts: [
 	'https://cdn.rawgit.com/mrdoob/three.js/r79/examples/js/loaders/BinaryLoader.js',
 
 	# This will be merged into A-Frame
-	'a-frame-assets/components/super-standard-material.js'
+	'a-frame-assets/components/super-standard-material.js',
+
+	# The ocean example
+	'a-frame-assets/components/ocean-plane.js'
 ]
 ---
 
@@ -28,8 +31,9 @@ scripts: [
 		<img id="ao" src="a-frame-assets/ninja/ao.jpg" />
 		<img id="displacement" src="a-frame-assets/ninja/displacement.jpg" />
 		<img id="normal" src="a-frame-assets/ninja/normal.jpg" />
-
 		<a-asset-item id="ninja-model-js" src="a-frame-assets/ninja/NinjaLo_bin.js"></a-asset-item>
+
+		<img id="water-normal" src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg" crossorigin="anonymous" />
 	</a-assets>
 
 	<a-entity light position="1 1 1"></a-entity>
@@ -49,6 +53,8 @@ scripts: [
 			material="shader:super-standard; color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #night-sphere;"
 		></a-entity>
 	</a-entity>
+
+	<a-ocean-plane material="normalMap: #water-normal; sphericalEnvMap: #night-sphere;" position="0 -2 0" ></a-ocean-plane>
 
 	<a-sky src="#night-sphere"></a-sky>
 
@@ -82,7 +88,6 @@ AFRAME.registerComponent('bin-model', {
 		this.loader.load( url, function( geometry ) {
 			var mesh = el.getObject3D('mesh');
 			geometry.faceVertexUvs[ 1 ] = geometry.faceVertexUvs[ 0 ]; // 2nd set of UVs required for aoMap
-			console.log(geometry.faceVertexUvs);
 			mesh.geometry = geometry;
 			mesh.material = el.components.material.material;
 			el.emit('model-loaded', {format: 'bin', model: mesh});

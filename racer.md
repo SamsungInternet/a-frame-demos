@@ -15,7 +15,8 @@ scripts: [
 	'a-frame-assets/components/follow.js',
 	'a-frame-assets/components/ship-controller.js',
 	'a-frame-assets/components/curve.js',
-	'a-frame-assets/components/super-standard-material.js'
+	'a-frame-assets/components/super-standard-material.js',
+	'a-frame-assets/components/ocean-plane.js'
 ]
 ---
 
