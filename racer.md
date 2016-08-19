@@ -8,7 +8,7 @@ scripts: [
 
 	'scripts/init-service-worker.js',
 
-	'https://cdn.rawgit.com/AdaRoseEdwards/aframe/3def347/dist/aframe.min.js', # A-Frame 0.3
+	'aframe.min.js', # A-Frame 0.3
 
 	'https://cdn.rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js', # look at component
 
