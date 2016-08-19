@@ -9,7 +9,7 @@ function updateNormal(shader, data) {
 		if (src === shader.textureSrc) { return; }
 		// Texture added or changed.
 		shader.normalSrc = src;
-		el.sceneEl.systems.material.loadTexture(src, {src: src}, setNormalMap);
+		el.sceneEl.systems.material.loadTexture(src, {normalMap: src}, setNormalMap);
 		return;
 	}
 
