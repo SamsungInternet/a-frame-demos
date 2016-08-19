@@ -27,7 +27,7 @@ scripts: [
 
 		<img id="ao" src="a-frame-assets/ninja/ao.jpg" />
 		<img id="displacement" src="a-frame-assets/ninja/displacement.jpg" />
-		<img id="normal" src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg" crossorigin="anonymous" />
+		<img id="normal" src="a-frame-assets/ninja/normal.jpg" />
 
 		<a-asset-item id="ninja-model-js" src="a-frame-assets/ninja/NinjaLo_bin.js"></a-asset-item>
 	</a-assets>
@@ -39,7 +39,7 @@ scripts: [
 		<a-entity
 			position="-2 0 0"
 			scale="0.15 0.15 0.15"
-			material="shader:super-standard; color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #night-sphere;  normalMap: #normal;"
+			material="shader:super-standard; color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #night-sphere; envMapIntensity: 1.0; normalMap: #normal; normalScale: 1 -1; aoMapIntensity: 1.0; aoMap: #ao; displacementMap: #displacement; displacementScale: 2.436143; displacementBias: -0.428408;"
 			bin-model="#ninja-model-js"
 		></a-entity>
 
@@ -82,6 +82,7 @@ AFRAME.registerComponent('bin-model', {
 		this.loader.load( url, function( geometry ) {
 			var mesh = el.getObject3D('mesh');
 			geometry.faceVertexUvs[ 1 ] = geometry.faceVertexUvs[ 0 ]; // 2nd set of UVs required for aoMap
+			console.log(geometry.faceVertexUvs);
 			mesh.geometry = geometry;
 			mesh.material = el.components.material.material;
 			el.emit('model-loaded', {format: 'bin', model: mesh});

@@ -1,40 +1,40 @@
 
 var texturePromises = {};
-function updateNormal(shader, data) {
+function updateDistortionMap(type, shader, data) {
 	var el = shader.el;
 	var material = shader.material;
-	var src = data.normalMap;
+	var src = data[type + 'Map'];
+	var info = {};
+	info[type + 'Map'] = src;
 
 	if (src) {
 		if (src === shader.textureSrc) { return; }
 		// Texture added or changed.
-		shader.normalSrc = src;
-		el.sceneEl.systems.material.loadTexture(src, {normalMap: src}, setNormalMap);
+		shader[type + 'Src'] = src;
+		el.sceneEl.systems.material.loadTexture(src, info, setMap);
 		return;
 	}
 
 	// Texture removed.
 	if (!material.map) { return; }
-	setNormalMap(null);
+	setMap(null);
 
-	function setNormalMap(texture) {
-		if (data.normalTextureWrap === 'repeat') {
-			texture.wrapS = texture.wrapT = THREE.RepeatWrapping
-		}
-		if (data.normalTextureWrap === 'clamp') {
-			texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping
-		}
-		if (data.normalTextureWrap === 'mirrored') {
-			texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping
-		}
-		if (data.normalTextureOffset) {
-			texture.offset = data.normalTextureOffset;
-		}
-		if (data.normalTextureRepeat) {
-			texture.repeat = (new THREE.Vector2()).copy(data.normalTextureRepeat);
+	function setMap(texture) {
+
+		if (data[type + 'TextureWrap'] === 'repeat') {
+			texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+		} else if (data[type + 'TextureWrap'] === 'clamp') {
+			texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
+		} else if (data[type + 'TextureWrap'] === 'mirrored') {
+			texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+		} else {
+			texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 		}
 
-		material.normalMap = texture;
+		texture.offset = data[type + 'TextureOffset'];
+		texture.repeat = (new THREE.Vector2()).copy(data[type + 'TextureRepeat']);
+
+		material[type + 'Map'] = texture;
 		material.needsUpdate = true;
 		AFRAME.utils.material.handleTextureEvents(el, texture);
 	}
@@ -48,12 +48,27 @@ AFRAME.registerShader('super-standard', {
 	schema: {
 		color: {type: 'color'},
 		envMap: {default: ''},
-		sphericalEnvMap: {default: ''},
+		sphericalEnvMap: { default: '' },
+
 		normalMap: {default: ''},
-		normalScale: { type: 'vec2' },
+		normalScale: { type: 'vec2', default: '1 1' },
 		normalTextureWrap: { default: 'repeat' }, // one of 'repeat', 'clamp', 'mirrored'
 		normalTextureOffset: { type: 'vec2'},
-		normalTextureRepeat: { type: 'vec2'},
+		normalTextureRepeat: { type: 'vec2', default: '1 1' },
+
+		displacementMap: {default: ''},
+		displacementScale: {default: 1},
+		displacementBias: {default: 1},
+		displacementTextureWrap: { default: 'repeat' }, // one of 'repeat', 'clamp', 'mirrored'
+		displacementTextureOffset: { type: 'vec2'},
+		displacementTextureRepeat: { type: 'vec2', default: '1 1' },
+
+		aoMap: {default: ''},
+		aoMapIntensity: {default: 1},
+		aoTextureWrap: { default: 'repeat' }, // one of 'repeat', 'clamp', 'mirrored'
+		aoTextureOffset: { type: 'vec2'},
+		aoTextureRepeat: { type: 'vec2', default: '1 1' },
+
 		fog: {default: true},
 		height: {default: 256},
 		metalness: {default: 0.0, min: 0.0, max: 1.0},
@@ -70,14 +85,18 @@ AFRAME.registerShader('super-standard', {
 	init: function (data) {
 		this.material = new THREE.MeshStandardMaterial(getMaterialData(data));
 		AFRAME.utils.material.updateMap(this, data);
-		updateNormal(this, data);
+		if (data.normalMap) updateDistortionMap('normal', this, data);
+		if (data.displacementMap) updateDistortionMap('displacement', this, data);
+		if (data.aoMap) updateDistortionMap('ao', this, data);
 		this.updateEnvMap(data);
 	},
 
 	update: function (data) {
 		this.updateMaterial(data);
 		AFRAME.utils.material.updateMap(this, data);
-		updateNormal(this, data);
+		if (data.normalMap) updateDistortionMap('normal', this, data);
+		if (data.displacementMap) updateDistortionMap('displacement', this, data);
+		if (data.aoMap) updateDistortionMap('ao', this, data);
 		this.updateEnvMap(data);
 	},
 
@@ -153,12 +172,27 @@ AFRAME.registerShader('super-standard', {
  * @returns {object} data - Processed material data.
  */
 function getMaterialData (data) {
-	return {
+	var newData = {
 		color: new THREE.Color(data.color),
 		fog: data.fog,
 		metalness: data.metalness,
 		roughness: data.roughness
 	};
+
+	if (data.normalMap) {
+		newData.normalScale = data.normalScale;
+	}
+
+	if (data.aoMap) {
+		newData.aoMapIntensity = data.aoMapIntensity;
+	}
+
+	if (data.displacementMap) {
+		newData.displacementScale = data.displacementScale;
+		newData.displacementBias = data.displacementBias;
+	}
+
+	return newData;
 }
 
 AFRAME.registerComponent('wobble-normal', {
