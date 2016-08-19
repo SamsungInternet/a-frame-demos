@@ -8,15 +8,12 @@ scripts: [
 	'scripts/init-service-worker.js',
 
 	# A-Frame
-	'https://cdn.rawgit.com/aframevr/aframe/v0.3.0/dist/aframe.min.js', # A-Frame 0.3
+	'https://cdn.rawgit.com/AdaRoseEdwards/aframe/3def347/dist/aframe.min.js', # A-Frame 0.3
 
 	# Required to load the demo model
 	'https://cdn.rawgit.com/mrdoob/three.js/r79/examples/js/loaders/BinaryLoader.js',
 
-	# This will be merged into A-Frame
-	'a-frame-assets/components/super-standard-material.js',
-
-	# The ocean example
+	# Ocean primitive which relies on the new materials
 	'a-frame-assets/components/ocean-plane.js'
 ]
 ---
@@ -43,14 +40,14 @@ scripts: [
 		<a-entity
 			position="-2 0 0"
 			scale="0.15 0.15 0.15"
-			material="shader:super-standard; color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #night-sphere; envMapIntensity: 1.0; normalMap: #normal; normalScale: 1 -1; aoMapIntensity: 1.0; aoMap: #ao; displacementMap: #displacement; displacementScale: 2.436143; displacementBias: -0.428408;"
+			material="color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #night-sphere; envMapIntensity: 1.0; normalMap: #normal; normalScale: 1 -1; aoMapIntensity: 1.0; aoMap: #ao; displacementMap: #displacement; displacementScale: 2.436143; displacementBias: -0.428408;"
 			bin-model="#ninja-model-js"
 		></a-entity>
 
 		<a-entity
 			geometry="primitive: torusKnot;"
 			position="2 0 0"
-			material="shader:super-standard; color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #night-sphere;"
+			material="color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #night-sphere;"
 		></a-entity>
 	</a-entity>
 

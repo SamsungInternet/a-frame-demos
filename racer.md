@@ -8,14 +8,13 @@ scripts: [
 
 	'scripts/init-service-worker.js',
 
-	'https://cdn.rawgit.com/aframevr/aframe/v0.3.0/dist/aframe.min.js', # A-Frame 0.3
+	'https://cdn.rawgit.com/AdaRoseEdwards/aframe/3def347/dist/aframe.min.js', # A-Frame 0.3
 
 	'https://cdn.rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js', # look at component
 
 	'a-frame-assets/components/follow.js',
 	'a-frame-assets/components/ship-controller.js',
 	'a-frame-assets/components/curve.js',
-	'a-frame-assets/components/super-standard-material.js',
 	'a-frame-assets/components/ocean-plane.js'
 ]
 ---

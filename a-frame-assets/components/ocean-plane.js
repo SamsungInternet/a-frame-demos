@@ -18,7 +18,7 @@ AFRAME.registerPrimitive('a-ocean-plane', {
 		},
 		rotation: '-90 0 0',
 		material: {
-			shader: 'super-standard',
+			shader: 'standard',
 			color: '#8ab39f',
 			metalness: 1,
 			roughness: 0.2,
