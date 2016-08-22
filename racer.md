@@ -5,13 +5,9 @@ description: A-Frame Demo
 image: https://samsunginternet.github.io/a-frame-demos/icon512-racer.png
 meta: racer
 scripts: [
-
 	'scripts/init-service-worker.js',
-
 	'aframe.min.js', # A-Frame 0.3
-
 	'https://cdn.rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js', # look at component
-
 	'a-frame-assets/components/follow.js',
 	'a-frame-assets/components/ship-controller.js',
 	'a-frame-assets/components/curve.js',
@@ -53,7 +49,7 @@ scripts: [
 
 		<!-- This is rotated by the controller -->
 		<a-entity id="controller-target" rotation="0 -90 0">
-			<a-entity	id="ship-camera-target" position="0 0 -8"></a-entity>
+			<a-entity id="ship-camera-target" position="0 0 -8"></a-entity>
 
 			<!-- this rolled by the controller -->
 			<a-obj-model src="#Feisar-ship-obj" mtl="#Feisar-ship-mtl" position="0 0.2 0" scale="0.3 0.3 0.3" rotation id="ship">
@@ -72,34 +68,65 @@ scripts: [
 	<!-- TRACK -->
 
 	<a-curve id="track1" curve="CatmullRom">
-		<a-curve-point position="30 -10 0"></a-curve-point>
-		<a-curve-point position="0 0 0"></a-curve-point>
-		<a-curve-point position="-60 4 30"></a-curve-point>
-		<a-curve-point position="-60 10 60"></a-curve-point>
-		<a-curve-point position="-60 10 120"></a-curve-point>
-		<a-curve-point position="-60 30 180"></a-curve-point>
+		<a-curve-point position="0 -4 0">
+			<a-curve-point position="-30 8 10">
+				<a-curve-point position="-30 -6 30">
+					<a-curve-point position="0 8 40">
+						<a-curve-point position="0 -2 40">
+							<a-curve-point position="0 25 50">
+
+							</a-curve-point>
+						</a-curve-point>
+					</a-curve-point>
+				</a-curve-point>
+			</a-curve-point>
+		</a-curve-point>
 	</a-curve>
 
 	<a-curve id="track2" curve="CatmullRom">
-		<a-curve-point position="-60 10 180"></a-curve-point>
-		<a-curve-point position="-60 10 260"></a-curve-point>
+		<a-curve-point position="-60 0 170"></a-curve-point>
+		<a-curve-point position="-60 15 260"></a-curve-point>
 		<a-curve-point position="0 10 280"></a-curve-point>
+		<a-curve-point position="30 10 240"></a-curve-point>
 	</a-curve>
 
-	<!--<a-draw-curve curve="#track" material="shader: line; color: red;"></a-draw-curve>-->
+	<a-curve id="track3" curve="CatmullRom">
+		<a-curve-point position="30 10 240"></a-curve-point>
+		<a-curve-point position="30 10 190"></a-curve-point>
+		<a-curve-point position="-60 -2 200"> </a-curve-point>
+		<a-curve-point position="-90 2 200"></a-curve-point>
+		<a-curve-point position="-120 2 200"></a-curve-point>
+		<a-curve-point position="-120 2 140"></a-curve-point>
+	</a-curve>
 
-	<a-entity floor-track clone-along-curve="curve: #track1; spacing: 6; scale: 1.5 1 2;" obj-model="obj: #race-track-obj; mtl: #race-track-mtl;"></a-entity>
+	<a-curve id="track4" curve="CatmullRom">
+		<a-curve-point position="-120 2 140"></a-curve-point>
+		<a-curve-point position="-120 2 100"></a-curve-point>
+		<a-curve-point position="-50 12 80"></a-curve-point>
+		<a-curve-point position="0 0 80"></a-curve-point>
+		<a-curve-point position="80 0 40"></a-curve-point>
+		<a-curve-point position="80 0.25 -20"></a-curve-point>
+		<a-curve-point position="40 0.5 0"></a-curve-point>
+	</a-curve>
 
-	<a-entity floor-track clone-along-curve="curve: #track2; spacing: 6; scale: 1.5 1 2;" obj-model="obj: #race-track-obj; mtl: #race-track-mtl;"></a-entity>
+	<!--
+	<a-draw-curve curve="#track1" material="shader: line; color: blue;"></a-draw-curve>
+	<a-draw-curve curve="#track2" material="shader: line; color: blue;"></a-draw-curve>-->
+
+	<a-entity id="part1" floor-track clone-along-curve="curve: #track1; spacing: 6; scale: 1.5 1 2;" obj-model="obj: #race-track-obj; mtl: #race-track-mtl;"></a-entity>
+	<a-entity id="part2" floor-track clone-along-curve="curve: #track2; spacing: 6; scale: 1.5 1 2;" obj-model="obj: #race-track-obj; mtl: #race-track-mtl;"></a-entity>
+	<a-entity id="part3" floor-track clone-along-curve="curve: #track3; spacing: 6; scale: 1.5 1 2;" obj-model="obj: #race-track-obj; mtl: #race-track-mtl;"></a-entity>
+	<a-entity id="part4" floor-track clone-along-curve="curve: #track4; spacing: 6; scale: 1.5 1 2;" obj-model="obj: #race-track-obj; mtl: #race-track-mtl;"></a-entity>
 
 </a-scene>
 
 <script>
-
-	function getCurveFromTrack(a) { return a.components['clone-along-curve'].data.curve.components.curve; }
+	function getCurveFromTrack(a) {
+		return a.components['clone-along-curve'].data.curve.components.curve;
+	}
 
 	var shipControllerEl = document.querySelector('[ship-controller]');
-	var curves = Array.from(document.querySelectorAll('[floor-track]'));
+	var tracks = Array.from(document.querySelectorAll('[floor-track]'));
 	var gravity = 60;
 	var __tempVector1 = new THREE.Vector3();
 	var __tempVector2 = new THREE.Vector3();
@@ -111,6 +138,7 @@ scripts: [
 		height: 0,
 		normal: new THREE.Vector3(),
 		lastPoint: new THREE.Vector3(),
+		floorEl: null,
 		lastTangent: new THREE.Vector3()
 	}
 
@@ -123,20 +151,24 @@ scripts: [
 	function updateCurrentFloor(p) {
 		currentFloor.height = 0;
 		currentFloor.normal.copy(yAxis);
+		currentFloor.floorEl = null;
+		var maxDistance = 6;
 		var isOnTrack = false;
-		for (var i in curves) {
-			var d = getCurveFromTrack(curves[i]).closestPointInLocalSpace(p);
-			if (d.distance < 6) {
+		for (var i in tracks) {
+			var d = getCurveFromTrack(tracks[i]).closestPointInLocalSpace(p);
+			if (d.distance < maxDistance && d.location.y < (p.y + 2)) {
+				maxDistance = d.distance;
 				isOnTrack = true;
 				if (d.location.y > currentFloor.height) {
 					currentFloor.height = d.location.y;
 					currentFloor.normal.copy(d.normal);
 					currentFloor.lastPoint.copy(d.location);
 					currentFloor.lastTangent.copy(d.tangent);
+					currentFloor.floorEl = tracks[i];
 				}
 			}
 		}
-		if(!isOnTrack) {
+		if (!isOnTrack) {
 			if (!shipReturnTimeout) shipReturnTimeout = setTimeout(returnShip, 3000);
 		} else {
 			if (shipReturnTimeout) {
@@ -147,10 +179,10 @@ scripts: [
 	}
 
 	AFRAME.registerSystem('custom-fuzzy-physics', {
-		init: function () {
+		init: function() {
 			this.restoreNormalAmount = 0.01;
 		},
-		tick: function () {
+		tick: function() {
 			var output = output || document.querySelector('.rs-container *');
 			var prevTime = this.prevTime = this.prevTime || Date.now();
 			var time = window.performance.now();
@@ -169,7 +201,7 @@ scripts: [
 			shipControllerEl.object3D.quaternion.slerp(__tempQuaternion, this.restoreNormalAmount);
 			this.restoreNormalAmount *= 0.8;
 
-			output.textContent = `${currentFloor.height}`;
+			output.textContent = `${currentFloor.floorEl ? currentFloor.floorEl.id : null}`;
 
 			if (p.y < currentFloor.height) {
 				var underground = currentFloor.height - p.y;

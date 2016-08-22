@@ -7,24 +7,23 @@ var up = new THREE.Vector3(0, 1, 0);
 var zAxis = new THREE.Vector3(0, 0, 1);
 var degToRad = THREE.Math.degToRad;
 
-function getPoints(domList) {
-	return Array.from(domList)
-		.filter(function (a) { return a.tagName === 'A-CURVE-POINT' })
-		.map(function (a) { return a.getAttribute('position') })
-		.filter(function (a) { return !!a })
-		.map(function (a) { return (new THREE.Vector3()).copy(AFRAME.utils.coordinates.parse(a)); })
-}
-
 AFRAME.registerComponent('curve-point', {
 
 	dependencies: ['position'],
 
+	schema: {
+		position: {type: 'vec3', default: '0 0 0'}
+	},
+
 	init: function () {
-		this.el.updateComponent('position');
+		var el = this.el;
+		while (el && !el.components.curve) el = el.parentNode;
+		this.parentCurve = el;
 	},
 
 	update: function () {
-		this.el.parentEl.updateComponent('a-curve');
+		this.el.object3D.position.copy(this.data.position);
+		this.parentCurve.updateComponent('curve');
 	},
 
 	remove: function () {
@@ -45,33 +44,41 @@ AFRAME.registerComponent('curve', {
 		default: 'CatmullRom'
 	},
 
-	init: function () {
-		this.update();
+	update: function () {
+		this.needsUpdate = true;
 	},
 
-	// gets called when child a-curve-points get updated
-	update: function () {
+	tick: function () {
+		if (!this.needsUpdate) return;
+		this.needsUpdate = false;
 		this.threeConstructor = THREE[this.data + 'Curve3'];
 
-		if (!this.points) {
-			this.points = getPoints(this.el.children);
-		}
-		if (this.points && !this.curve) {
+		var points = Array.from(this.el.querySelectorAll('a-curve-point')).filter(function (a) { return a.tagName === 'A-CURVE-POINT' });
 
-			// apply the points as ags to the Beziers
-			if (this.data.match(/QuadraticBezier|CubicBezier|Line/)) {
-				this.curve = (Function.prototype.bind.apply(this.threeConstructor, this.points));
-			} else {
-				if (!this.threeConstructor) {
-					this.pause();
-					throw ('No Three constructor of type (case sensitive): ' + this.data + 'Curve3');
-				}
-				this.curve = new this.threeConstructor(this.points);
+		if (points.length <= 1) return;
+
+		this.points = points.map(function (a) {
+			if (a.x !== undefined && a.y !== undefined && a.z !== undefined) {
+				return a;
 			}
+			return a.object3D.getWorldPosition()
+		});
 
-			this.el.setObject3D('curve', this.curve);
-			this.ready = true;
+		// apply the points as ags to the Beziers
+		if (this.data.match(/QuadraticBezier|CubicBezier|Line/)) {
+			this.curve = (Function.prototype.bind.apply(this.threeConstructor, this.points));
+		} else {
+			if (!this.threeConstructor) {
+				this.pause();
+				throw ('No Three constructor of type (case sensitive): ' + this.data + 'Curve3');
+			}
+			this.curve = new this.threeConstructor(this.points);
 		}
+
+		this.el.emit('curve-updated');
+
+		this.el.setObject3D('curve', this.curve);
+		this.ready = true;
 	},
 
 	remove: function () {
@@ -82,7 +89,8 @@ AFRAME.registerComponent('curve', {
 	},
 
 	closestPointInLocalSpace: function closestPoint(point, resolution, testPoint, currentRes) {
-		resolution = resolution || 1 / this.curve.getLength();
+		if (!this.ready) throw Error('Curve not instantiated yet.');
+		resolution = resolution || 0.1 / this.curve.getLength();
 		currentRes = currentRes || 0.5;
 		testPoint = testPoint || 0.5;
 		currentRes /= 2;
@@ -140,18 +148,25 @@ AFRAME.registerComponent('draw-curve', {
 		normal: { default: true }
 	},
 
+	init: function () {
+		this.data.curve.addEventListener('curve-updated', this.update.bind(this));
+	},
+
 	update: function () {
 		if (this.data.curve) {
-			this.curve = this.data.curve.components.curve.curve;
+			this.curve = this.data.curve.components.curve;
 		} else if (this.components.curve.curve) {
-			this.curve = this.components.curve.curve;
+			this.curve = this.components.curve;
 		}
 
-		if (this.curve) {
+		if (this.curve.curve) {
 
-			var counter = 0;
+			var length = this.curve.curve.getLength();
+			var start = 0;
+			var end = length;
+
+			var counter = start
 			var tangent;
-			var length = this.curve.getLength();
 			var line;
 			var lineEnd;
 			var tangentGeometry;
@@ -159,8 +174,8 @@ AFRAME.registerComponent('draw-curve', {
 			var mesh = this.el.getOrCreateObject3D('mesh', THREE.Line);
 			var geometry = mesh.geometry = new THREE.Geometry();
 
-			while (counter < length) {
-				var p = this.curve.getPointAt(counter / length);
+			while (counter < end) {
+				var p = this.curve.curve.getPointAt(counter / length);
 				geometry.vertices.push(p);
 
 				if (this.data.tangent) {
@@ -168,7 +183,7 @@ AFRAME.registerComponent('draw-curve', {
 
 					lineEnd = new THREE.Vector3();
 					lineEnd.copy(p);
-					lineEnd.add(this.curve.getTangentAt(counter / length).normalize().multiplyScalar(5));
+					lineEnd.add(this.curve.curve.getTangentAt(counter / length).normalize().multiplyScalar(5));
 
 					tangentGeometry.vertices.push(new THREE.Vector3().copy(p));
 					tangentGeometry.vertices.push(lineEnd);
@@ -185,7 +200,7 @@ AFRAME.registerComponent('draw-curve', {
 
 				if (this.data.normal) {
 					normalGeometry = new THREE.Geometry();
-					lineEnd = normalFromTangent(this.curve.getTangentAt(counter / length).normalize());
+					lineEnd = normalFromTangent(this.curve.curve.getTangentAt(counter / length).normalize());
 					lineEnd.add(p);
 
 					normalGeometry.vertices.push(new THREE.Vector3().copy(p));
@@ -232,14 +247,15 @@ AFRAME.registerComponent('clone-along-curve', {
 
 	init: function () {
 		this.el.addEventListener('model-loaded', this.update.bind(this));
+		this.data.curve.addEventListener('curve-updated', this.update.bind(this));
 	},
 
 	update: function () {
 		this.remove();
 		if (this.data.curve) {
-			this.curve = this.data.curve.components.curve.curve;
+			this.curve = this.data.curve.components.curve;
 		} else if (this.components.curve.curve) {
-			this.curve = this.components.curve.curve;
+			this.curve = this.components.curve;
 		}
 	},
 
@@ -248,8 +264,11 @@ AFRAME.registerComponent('clone-along-curve', {
 
 			var mesh = this.el.getObject3D('mesh');
 
-			var counter = 0;
-			var length = this.curve.getLength();
+
+			var length = this.curve.curve.getLength();
+			var start = 0;
+			var end = length;
+			var counter = start;
 
 			var cloneMesh = this.el.getOrCreateObject3D('clones', THREE.Group);
 
@@ -260,13 +279,13 @@ AFRAME.registerComponent('clone-along-curve', {
 
 			parent.add(mesh);
 
-			while (counter < length) {
+			while (counter < end) {
 
 				var child = parent.clone(true);
 
-				child.position.copy( this.curve.getPointAt(counter/length) );
+				child.position.copy( this.curve.curve.getPointAt(counter/length) );
 
-				tangent = this.curve.getTangentAt(counter/length).normalize();
+				tangent = this.curve.curve.getTangentAt(counter/length).normalize();
 
 				child.quaternion.setFromUnitVectors(zAxis, tangent);
 
@@ -297,7 +316,12 @@ AFRAME.registerPrimitive('a-draw-curve', {
 
 AFRAME.registerPrimitive('a-curve-point', {
 	defaultComponents: {
-		'curve-point': {}
+		'curve-point': {
+			position: '0 0 0'
+		}
+	},
+	mappings: {
+		position: 'curve-point.position'
 	}
 });
 
