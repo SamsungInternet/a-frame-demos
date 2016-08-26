@@ -169,7 +169,8 @@ scripts: [
 			}
 		}
 		if (!isOnTrack) {
-			if (!shipReturnTimeout) shipReturnTimeout = setTimeout(returnShip, 3000);
+			// Disabled because it is unfriendly.
+			// if (!shipReturnTimeout) shipReturnTimeout = setTimeout(returnShip, 3000);
 		} else {
 			if (shipReturnTimeout) {
 				clearTimeout(shipReturnTimeout);
@@ -183,7 +184,6 @@ scripts: [
 			this.restoreNormalAmount = 0.01;
 		},
 		tick: function() {
-			var output = output || document.querySelector('.rs-container *');
 			var prevTime = this.prevTime = this.prevTime || Date.now();
 			var time = window.performance.now();
 			var delta = (time - prevTime) / 1000;
@@ -201,8 +201,6 @@ scripts: [
 			shipControllerEl.object3D.quaternion.slerp(__tempQuaternion, this.restoreNormalAmount);
 			this.restoreNormalAmount *= 0.8;
 
-			output.textContent = `${currentFloor.floorEl ? currentFloor.floorEl.id : null}`;
-
 			if (p.y < currentFloor.height) {
 				var underground = currentFloor.height - p.y;
 
@@ -211,7 +209,7 @@ scripts: [
 				__tempVector1.copy(shipController.velocity);
 
 				__tempVector1.add(currentFloor.normal.multiplyScalar(
-					Math.max(-currentFloor.normal.dot(shipController.velocity), 0.01)
+					Math.max(-currentFloor.normal.dot(shipController.velocity), 0.3)
 				));
 
 				if (underground > 2) {
