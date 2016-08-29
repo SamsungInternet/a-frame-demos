@@ -8,15 +8,14 @@ scripts: [
 	'scripts/init-service-worker.js',
 	'aframe.min.js', # A-Frame 0.3
 	'https://cdn.rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js', # look at component
-	'a-frame-assets/components/follow.js',
+	'https://cdn.rawgit.com/SamsungInternet/a-frame-components/v0.0.1/dist/follow.js',
+	'https://cdn.rawgit.com/SamsungInternet/a-frame-components/v0.0.1/dist/curve.js',
+	'https://cdn.rawgit.com/SamsungInternet/a-frame-components/v0.0.1/dist/ocean-plane.js',
 	'a-frame-assets/components/ship-controller.js',
-	'a-frame-assets/components/curve.js',
-	'a-frame-assets/components/ocean-plane.js'
 ]
 ---
 
-
-<a-scene inspector stats physics="debug: true">
+<a-scene inspector physics="debug: true">
 
 	<!-- Assets -->
 
