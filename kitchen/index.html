@@ -1,0 +1,36 @@
+---
+layout: a-frame
+title: Lick the Whisk
+meta: kitchen
+description: Complex physical materials in A-Frame
+image: https://cdn-images-1.medium.com/max/1600/1*5C86U-OZFf4eYedrsIEjqw.png
+scripts: [
+
+	# A-Frame
+	'/a-frame-demos/aframe.min.js', # A-Frame 0.3
+
+	# Required to load the demo model
+	'https://cdn.rawgit.com/mrdoob/three.js/r79/examples/js/loaders/BinaryLoader.js',
+
+	# JSON loader
+	'https://cdn.rawgit.com/donmccurdy/aframe-extras/v2.3.0/dist/aframe-extras.loaders.min.js'
+]
+---
+<a-scene inspector physics="debug: true">
+	<!-- Assets -->
+	<a-assets>
+		<img id="night-sphere" src="{{site.baseurl}}/a-frame-assets/360-photos/SAM_100_0063_SMALL.jpg" />
+		<a-asset-item id="kitchen-model" src="{{site.baseurl}}/a-frame-assets/kitchen/lickthewhisk.json"></a-asset-item>
+	</a-assets>
+
+	<a-entity position="0 0 -5" rotation="0 180 0">
+		<a-camera></a-camera>
+	</a-entity>
+
+	<a-entity three-model="loader: object; src: #kitchen-model;"></a-entity>
+
+	<a-sky color="skyblue"></a-sky>
+</a-scene>
+
+<!-- Script to apply textures correctly -->
+<script src="scene-materials.js"></script>
