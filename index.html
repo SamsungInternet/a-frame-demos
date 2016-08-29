@@ -5,18 +5,37 @@ title: Samsung A-Frame Demos
 
 <h1>Samsung A-Frame Demos</h1>
 
+<p>
+	This site contains links to demos prodcuced to test or build with a-frame.
+</p>
+
 <!-- Features to add:
 	Dyanmically set 360 image preview in the surroundings for gearVR.
 	Have a VR mode where you can try on the experiences.
  -->
 
+<h2>Web Apps</h2>
+
 {% for page in site.pages %}
 {% if page.meta %}
-<div data-image-preview="{{ page.image }}" data-360-preview="{{ page.image }}" class="store-item">
+<div data-image-preview="{{ page.image }}" data-360-preview="{{ page.image360 }}" class="store-item">
 	<figure class="store-icon">
 		<a href="{{ site.baseurl }}{{ page.url }}"><img src="{{ site.baseurl }}/{{ page.meta }}/icon512.png" />
 	<span class="caption">{{ page.title }}</span></a></figure>
 	<span class="description">{{ page.description }}</span>
 </div>
+{% endif %}
+{% endfor %}
+
+<h2>Demos</h2>
+
+
+{% for page in site.pages %}
+{% if page.meta == null %}
+{% if page.layout == 'a-frame' %}
+<div data-image-preview="{{ page.image }}" data-360-preview="{{ page.image360 }}" class="store-item">
+	<a href="{{ site.baseurl }}{{ page.url }}"><span class="caption">{{ page.title }}</span></a>&nbsp;-&nbsp;<span> {{ page.description }}</span>
+</div>
+{% endif %}
 {% endif %}
 {% endfor %}
