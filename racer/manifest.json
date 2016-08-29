@@ -1,0 +1,21 @@
+{
+  "name": "A-Frame Racer",
+  "shortname": "Racer",
+  "icons": [
+    {
+      "src": "/racer/icon512.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/racer/icon192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/racer/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "white",
+  "theme_color": "#8953D8"
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="{{ page.description }}">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,target-densitydpi=device-dpi, user-scalable=no, minimal-ui" />
+		<link rel="manifest" href="/manifest.json">
+		<link rel="icon" sizes="512x512" href="/images/icon512.png">
+		<link rel="icon" sizes="192x192" href="/images/icon192.png">
+		<meta name="theme-color" content="#8953D8">
+		<title>{{ page.title }}</title>
+		{% if page.image %}
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:image" content="{{ page.image }}">
+		{% else %}
+		<meta name="twitter:card" content="summary">
+		{% endif %}
+		<meta name="twitter:site" content="@lady_ada_king">
+		<meta name="twitter:creator" content="@lady_ada_king">
+		{% if page.title %}
+		<meta name="twitter:title" content="{{ page.title }}">
+		{% else %}
+		<meta name="twitter:title" content="Samsung Internet Demo">
+		{% endif %}
+		{% if page.description %}
+		<meta name="twitter:description" content="{{ page.description }}">
+		{% else %}
+		<meta name="twitter:description" content="No description yet.">
+		{% endif %}
+		<script src="https://cdn.polyfill.io/v2/polyfill.js?features=Array.isArray,Array.from,default-3.6,Element.prototype.before,Element.prototype.after,Element.prototype.remove"></script>
+		{% if page.script %}
+		<script src="{{page.script}}"></script>
+		{% endif %}
+		{% if page.scripts %}
+		{% for item in page.scripts %}
+		<script src="{{ item }}"></script>
+		{% endfor %}
+		{% endif %}
+	</head>
+	<body class="post">
+		{{ content }}
+	</body>
+</html>

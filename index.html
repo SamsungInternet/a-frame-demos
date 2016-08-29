@@ -1,0 +1,13 @@
+---
+layout: store
+---
+
+<h1></h1>
+
+<ul>
+  {% for page in site.pages %}
+	{% if page.meta %}
+		<li><a href="{{ page.url }}">{{ page.title }}</a></li>
+	{% endif %}   <!-- cat-match-p -->
+  {% endfor %}  <!-- page -->
+</ul>
