@@ -4,10 +4,13 @@ layout: store
 
 <h1>Samsung A-Frame Demos</h1>
 
-<ul>
   {% for page in site.pages %}
 	{% if page.meta %}
-		<li><a href="{{ page.url }}">{{ page.title }}</a></li>
+		<div>
+			<a href="{{ site.baseurl }}{{ page.url }}">
+				<figure><img src="{{ site.baseurl }}/{{ page.meta }}/icon512.png" /><br/>{{ page.title }}</figure>
+			</a>
+			<span>{{ page.description }}</span>
+		</div>
 	{% endif %}   <!-- cat-match-p -->
   {% endfor %}  <!-- page -->
-</ul>

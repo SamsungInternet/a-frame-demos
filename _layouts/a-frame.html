@@ -5,9 +5,9 @@
 		<meta name="description" content="{{ page.description }}">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,target-densitydpi=device-dpi, user-scalable=no, minimal-ui" />
 		{% if page.meta %}
-		<link rel="manifest" href="/{{ page.meta }}/manifest.json">
-		<link rel="icon" sizes="512x512" href="/{{ page.meta }}/icon512.png">
-		<link rel="icon" sizes="192x192" href="/{{ page.meta }}/icon192.png">
+		<link rel="manifest" href="{{ site.baseurl }}/{{ page.meta }}/manifest.json">
+		<link rel="icon" sizes="512x512" href="{{ site.baseurl }}/{{ page.meta }}/icon512.png">
+		<link rel="icon" sizes="192x192" href="{{ site.baseurl }}/{{ page.meta }}/icon192.png">
 		{% endif %}
 		<meta name="theme-color" content="#8953D8">
 		<title>{{ page.title }}</title>

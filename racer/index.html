@@ -6,13 +6,13 @@ image: https://cdn-images-1.medium.com/max/1600/1*4SZ_eI61m8c03Kdvyr8RCw.png
 meta: racer
 redirect_from: "/racer.html"
 scripts: [
-	'/scripts/init-service-worker.js',
-	'/aframe.min.js', # A-Frame 0.3
+	'/a-frame-demos/scripts/init-service-worker.js',
+	'/a-frame-demos/aframe.min.js', # A-Frame 0.3
 	'https://cdn.rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js', # look at component
 	'https://cdn.rawgit.com/SamsungInternet/a-frame-components/v0.0.1/dist/follow.js',
 	'https://cdn.rawgit.com/SamsungInternet/a-frame-components/v0.0.1/dist/curve.js',
 	'https://cdn.rawgit.com/SamsungInternet/a-frame-components/v0.0.1/dist/ocean-plane.js',
-	'/a-frame-assets/components/ship-controller.js',
+	'/a-frame-demos/a-frame-assets/components/ship-controller.js',
 ]
 ---
 
@@ -21,16 +21,16 @@ scripts: [
 	<!-- Assets -->
 
 	<a-assets>
-		<a-asset-item id="Feisar-ship-obj" src="/a-frame-assets/Feisar_Ship_OBJ/Feisar_Ship.obj"></a-asset-item>
-		<a-asset-item id="Feisar-ship-mtl" src="/a-frame-assets/Feisar_Ship_OBJ/Feisar_Ship.mtl"></a-asset-item>
+		<a-asset-item id="Feisar-ship-obj" src="{{ site.baseurl }}/a-frame-assets/Feisar_Ship_OBJ/Feisar_Ship.obj"></a-asset-item>
+		<a-asset-item id="Feisar-ship-mtl" src="{{ site.baseurl }}/a-frame-assets/Feisar_Ship_OBJ/Feisar_Ship.mtl"></a-asset-item>
 
-		<a-asset-item id="race-track-obj" src="/a-frame-assets/race-track/race-track.obj"></a-asset-item>
-		<a-asset-item id="race-track-mtl" src="/a-frame-assets/race-track/race-track.mtl"></a-asset-item>
+		<a-asset-item id="race-track-obj" src="{{ site.baseurl }}/a-frame-assets/race-track/race-track.obj"></a-asset-item>
+		<a-asset-item id="race-track-mtl" src="{{ site.baseurl }}/a-frame-assets/race-track/race-track.mtl"></a-asset-item>
 
 		<img id="water-normal" src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg" crossorigin="anonymous" />
 
 		<!-- Sky is free sample sky from cgskies, buy one for commecial use -->
-		<img id="cgsky" src="/a-frame-assets/sky/CGSkies_0347_free.jpg" crossorigin="anonymous" />
+		<img id="cgsky" src="{{ site.baseurl }}/a-frame-assets/sky/CGSkies_0347_free.jpg" crossorigin="anonymous" />
 	</a-assets>
 
 	<!-- CAMERA -->

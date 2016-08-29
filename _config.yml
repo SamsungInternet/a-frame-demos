@@ -1,4 +1,4 @@
 gems:
   - jekyll-redirect-from
 
-baseurl: a-frame-demos
+baseurl: /a-frame-demos
