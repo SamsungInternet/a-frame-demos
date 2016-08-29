@@ -1,16 +1,22 @@
 ---
 layout: store
+title: Samsung A-Frame Demos
 ---
 
 <h1>Samsung A-Frame Demos</h1>
 
-  {% for page in site.pages %}
-	{% if page.meta %}
-		<div>
-			<a href="{{ site.baseurl }}{{ page.url }}">
-				<figure><img src="{{ site.baseurl }}/{{ page.meta }}/icon512.png" /><br/>{{ page.title }}</figure>
-			</a>
-			<span>{{ page.description }}</span>
-		</div>
-	{% endif %}   <!-- cat-match-p -->
-  {% endfor %}  <!-- page -->
+<!-- Features to add:
+	Dyanmically set 360 image preview in the surroundings for gearVR.
+	Have a VR mode where you can try on the experiences.
+ -->
+
+{% for page in site.pages %}
+{% if page.meta %}
+<div data-image-preview="{{ page.image }}" data-360-preview="{{ page.image }}" class="store-item">
+	<figure class="store-icon">
+		<a href="{{ site.baseurl }}{{ page.url }}"><img src="{{ site.baseurl }}/{{ page.meta }}/icon512.png" />
+	<span class="caption">{{ page.title }}</span></a></figure>
+	<span class="description">{{ page.description }}</span>
+</div>
+{% endif %}
+{% endfor %}

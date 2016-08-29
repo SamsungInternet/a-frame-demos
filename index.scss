@@ -1,0 +1,33 @@
+---
+---
+
+html, body {
+	font-family: sans;
+}
+
+.store-item {
+	display: block;
+	display: flex;
+
+	.store-icon {
+		width: 5em;
+		display: inline-block;
+		text-align: center;
+
+		img {
+			width: 100%;
+		}
+
+	}
+
+	.description {
+		padding: 1em;
+		float: right;
+	}
+
+	:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+}
