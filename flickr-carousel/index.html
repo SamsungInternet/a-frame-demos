@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A-Frame Flickr Carousel</title>
+    <script src="https://aframe.io/releases/0.3.0/aframe.min.js"></script>
+    <script src="components/aframe-layout-component.min.js"></script>
+    <script src="components/aframe-look-at-component.min.js"></script>
+  </head>
+  <body>
+    <a-scene id="scene">
+      <a-assets id="assets">
+        <img id="skybox" src="images/sky_by_gawthrop.jpg"/>
+      </a-assets>
+      <a-entity id="imageContainer" layout="type: circle; radius: 3" position="0 0.75 0" rotation="0 18 0"></a-entity>
+      <a-entity id="cameraContainer" camera look-controls position="0 1.6 0">
+        <a-cursor></a-cursor>
+      </a-entity>
+      <a-sky src="#skybox" position="0 -1 0" rotation="0 45 0"></a-sky>
+    </a-scene>
+    <script src="js/main.js"></script>
+  </body>
+</html>
