@@ -1,4 +1,5 @@
 gems:
   - jekyll-redirect-from
 
+siteurl: https://samsunginternet.github.io
 baseurl: /a-frame-demos
