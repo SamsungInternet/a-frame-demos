@@ -5,17 +5,14 @@ description: Complex physical materials in A-Frame
 image: https://cdn-images-1.medium.com/max/1600/1*5C86U-OZFf4eYedrsIEjqw.png
 scripts: [
 
-	# So it works offline
-	'scripts/init-service-worker.js',
-
 	# A-Frame
-	'aframe.min.js', # A-Frame 0.3
+	'https://cdn.rawgit.com/AdaRoseEdwards/aframe/fast/dist/aframe.min.fast.js',
 
 	# Required to load the demo model
 	'https://cdn.rawgit.com/mrdoob/three.js/r79/examples/js/loaders/BinaryLoader.js',
 
 	# Ocean primitive which relies on the new materials
-	'a-frame-assets/components/ocean-plane.js'
+	'a-frame-assets/components/ocean-plane.js'aframe.min.js
 ]
 ---
 
