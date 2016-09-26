@@ -9,7 +9,8 @@ Click to advance to the next photo, or just look around with a WebVR-compatible 
 ## Local development
 
 Please note that the `index.html` file in this folder is intended to be transformed by Jekyll,
-to fit in well with the rest of this collection of demos.
+to fit in well with the rest of this collection of demos. See the README at the root of this
+repository for instructions.
 
 If you would prefer to view the version with raw HTML, without requiring Jekyll, it is available at:
 [github.com/poshaughnessy/aframe-flickr-carousel](https://github.com/poshaughnessy/aframe-flickr-carousel).
