@@ -15,6 +15,12 @@ repository for instructions.
 If you would prefer to view the version with raw HTML, without requiring Jekyll, it is available at:
 [github.com/poshaughnessy/aframe-flickr-carousel](https://github.com/poshaughnessy/aframe-flickr-carousel).
 
+## If the carousel does not load...
+
+Please update the Flickr API key in index.html.
+
+To generate a new one, visit: https://www.flickr.com/services/api/explore/flickr.photos.search.
+
 ## Credits
 
 * [360 degree sky image by Peter Gawthrop (CC BY-NC-SA 2.0)](https://www.flickr.com/photos/gawthrop/3559516146).
