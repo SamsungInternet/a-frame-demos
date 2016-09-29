@@ -1,12 +1,25 @@
 # A-Frame Flickr Carousel
 
-Pulls a set of photos from Flickr dynamically and displays them in a circular carousel.
+A virtual reality web app demonstration, using [A-Frame](https://aframe.io/).
 
-Click to advance to the next photo.
+It pulls a set of photos from Flickr dynamically and displays them in a circular carousel.
+
+Click to advance to the next photo, or just look around with a WebVR-compatible headset on.
 
 ## Local development
 
-Use any static web server to host, e.g. `python -m SimpleHTTPServer`.
+Please note that the `index.html` file in this folder is intended to be transformed by Jekyll,
+to fit in well with the rest of this collection of demos. See the README at the root of this
+repository for instructions.
+
+If you would prefer to view the version with raw HTML, without requiring Jekyll, it is available at:
+[github.com/poshaughnessy/aframe-flickr-carousel](https://github.com/poshaughnessy/aframe-flickr-carousel).
+
+## If the carousel does not load...
+
+Please update the Flickr API key in index.html.
+
+To generate a new one, visit: https://www.flickr.com/services/api/explore/flickr.photos.search.
 
 ## Credits
 
