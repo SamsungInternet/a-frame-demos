@@ -33,8 +33,6 @@ AFRAME.registerComponent('ship-controller', {
 
 	update: function (previousData) {
 
-		if (AFRAME.utils.isGearVR()) this.el.sceneEl.camera.el.components['look-controls'].removeEventListeners();
-
 		var data = this.data;
 		var acceleration = data.acceleration;
 		var easing = data.easing;
