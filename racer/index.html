@@ -7,10 +7,10 @@ meta: racer
 redirect_from: "/racer.html"
 scripts: [
 	'/a-frame-demos/scripts/init-service-worker.js',
-	'https://aframe.io/aframe/dist/aframe.min.js', # Latest A-Frame Master
+	'https://aframe.io/releases/0.4.0/aframe.min.js', # Latest A-Frame Master
 	'https://cdn.rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js', # look at component
 	'https://cdn.rawgit.com/SamsungInternet/a-frame-components/v0.0.1/dist/follow.js',
-	'https://cdn.rawgit.com/SamsungInternet/a-frame-components/v0.0.1/dist/curve.js',
+	'curve.js',
 	'https://samsunginternet.github.io/a-frame-components/dist/ocean-plane.js',
 	'/a-frame-demos/a-frame-assets/components/ship-controller.js',
 ]
@@ -67,7 +67,7 @@ scripts: [
 
 	<!-- TRACK -->
 
-	<a-curve id="track1" curve="CatmullRom">
+	<a-curve id="track1" curve="type: CatmullRom;">
 		<a-curve-point position="0 -4 0">
 			<a-curve-point position="-30 8 10">
 				<a-curve-point position="-30 -6 30">
@@ -83,14 +83,14 @@ scripts: [
 		</a-curve-point>
 	</a-curve>
 
-	<a-curve id="track2" curve="CatmullRom">
+	<a-curve id="track2" curve="type: CatmullRom;">
 		<a-curve-point position="-60 0 170"></a-curve-point>
 		<a-curve-point position="-60 15 260"></a-curve-point>
 		<a-curve-point position="0 10 280"></a-curve-point>
 		<a-curve-point position="30 10 240"></a-curve-point>
 	</a-curve>
 
-	<a-curve id="track3" curve="CatmullRom">
+	<a-curve id="track3" curve="type: CatmullRom;">
 		<a-curve-point position="30 10 240"></a-curve-point>
 		<a-curve-point position="30 10 190"></a-curve-point>
 		<a-curve-point position="-60 -2 200"> </a-curve-point>
@@ -99,7 +99,7 @@ scripts: [
 		<a-curve-point position="-120 2 140"></a-curve-point>
 	</a-curve>
 
-	<a-curve id="track4" curve="CatmullRom">
+	<a-curve id="track4" curve="type: CatmullRom;">
 		<a-curve-point position="-120 2 140"></a-curve-point>
 		<a-curve-point position="-120 2 100"></a-curve-point>
 		<a-curve-point position="-50 12 80"></a-curve-point>
@@ -189,7 +189,7 @@ scripts: [
 			var delta = (time - prevTime) / 1000;
 			this.prevTime = time;
 			var shipController = shipControllerEl.components['ship-controller'];
-			var p = shipControllerEl.getComputedAttribute('position');
+			var p = shipControllerEl.getAttribute('position');
 			updateCurrentFloor(p);
 
 			if (p.y > currentFloor.height + 0.5) {

@@ -52,17 +52,17 @@ AFRAME.registerComponent('ship-controller', {
 			return;
 		}
 
-		var position = el.getComputedAttribute('position');
-		var rotation = (this.data.turnTarget || el).getComputedAttribute('rotation');
+		var position = el.getAttribute('position');
+		var rotation = (this.data.turnTarget || el).getAttribute('rotation');
 
-		this.roll -= this.el.sceneEl.camera.el.getComputedAttribute('rotation').z * (Math.PI/180) * delta * this.data.rollAcceleration;
+		this.roll -= this.el.sceneEl.camera.el.getAttribute('rotation').z * (Math.PI/180) * delta * this.data.rollAcceleration;
 		rotation.y += this.roll * this.data.rollEasing * delta * -velocity.z * 0.1;
 		this.roll -= this.roll * this.data.rollEasing * delta;
 		velocity.x -= velocity.x * easing * delta;
 		velocity.z -= velocity.z * easing * delta;
 
 		if (this.data.rollTarget) {
-			var rollTargetRotation = this.data.rollTarget.getComputedAttribute('rotation');
+			var rollTargetRotation = this.data.rollTarget.getAttribute('rotation');
 			rollTargetRotation.z = this.roll;
 			this.data.rollTarget.setAttribute('rotation', rollTargetRotation);
 		} else {
@@ -196,7 +196,7 @@ AFRAME.registerComponent('ship-controller', {
 		var rotation = new THREE.Euler(0, 0, 0, 'YXZ');
 		return function (delta) {
 			var velocity = this.velocity;
-			var elRotation = (this.data.turnTarget || el).getComputedAttribute('rotation');
+			var elRotation = (this.data.turnTarget || el).getAttribute('rotation');
 			direction.copy(velocity);
 			direction.multiplyScalar(delta);
 			if (!elRotation) { return direction; }
