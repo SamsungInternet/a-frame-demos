@@ -1,0 +1,4 @@
+Rubber duck model by Peter O'Shaughnessy (made using Clara.io).
+
+License: CC BY 4.0.
+https://creativecommons.org/licenses/by/4.0/
