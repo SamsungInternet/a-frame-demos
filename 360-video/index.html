@@ -4,17 +4,25 @@ title: 360 Video
 description: Background 360 video demo
 author: Peter O'Shaughnessy
 scripts: [
-  '/a-frame-demos/aframe-v0.4.0.min.js'  
+  '/a-frame-demos/aframe-v0.4.0.min.js'
 ]
 ---
 <a-scene id="scene">
   <a-assets id="assets">
     <!-- NB. A-Frame cannot yet handle multiple video <source> elements -->
-    <video id="video" src="videos/paris-by-diego.mp4" autoplay loop/>
+    <video id="video" src="videos/paris-by-diego.mp4" autoplay loop webkit-playsinline/>
     <a-asset-item id="duck-obj" src="models/rubber-duck.obj"></a-asset-item>
     <a-asset-item id="duck-mtl" src="models/rubber-duck.mtl"></a-asset-item>
   </a-assets>
-  <a-entity obj-model="obj: #duck-obj; mtl: #duck-mtl" position="-25 -12 -25" scale="8 8 8" rotation="0 130 0"></a-entity>
+  <a-entity position="-25 -12 -25" rotation="0 130 2">
+    <a-entity obj-model="obj: #duck-obj; mtl: #duck-mtl" scale="8 8 8"></a-entity>
+    <a-animation attribute="rotation"
+                 direction="alternate"
+                 fill="forwards"
+                 dur="4000"
+                 to="0 130 -3"
+                 repeat="indefinite"></a-animation>
+  </a-entity>
   <a-sphere position="5 -1 7" radius="1.25" color="#EF2D5E"></a-sphere>
   <a-box position="6 -1 4" rotation="0 45 0" width="1" height="1" depth="1"  color="#4CC3D9"></a-box>
   <a-cylinder position="4 -1 4" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
