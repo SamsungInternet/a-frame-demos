@@ -7,5 +7,5 @@ blocks on the pavement and a rubber duck bobbing up and down on the river!
 
 Thanks to [Diego Gonzalez](https://github.com/diekus) for the video, recorded in Paris with a Samsung Gear 360.
 
-Please note the restriction that on Android, video [requires a user interaction before it can play](https://github.com/aframevr/aframe/issues/316).
-This is why there is a prompt at the beginning.
+Please note there is a current restriction on Chromium browsers on Android, that video [requires a user interaction before it can play](https://github.com/aframevr/aframe/issues/316).
+That's solved in this demo by having a prompt at the beginning.
