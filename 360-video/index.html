@@ -20,3 +20,10 @@ scripts: [
   <a-cylinder position="4 -1 4" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
   <a-videosphere src="#video"></a-videosphere>
 </a-scene>
+<script type="text/javascript">
+  var videoEl = document.getElementById('video');
+  document.addEventListener('click', function() {
+    console.log('Play video');
+    videoEl.play();
+  });
+</script>
