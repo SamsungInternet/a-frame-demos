@@ -28,16 +28,22 @@ recognition.onresult = function(event) {
 function startListening() {
 
   var recordButton = document.getElementById('btn-record');
+  var textElement = document.getElementById('text-tweet');
 
   console.log('recordButton', recordButton.object3D);
 
   if (recognising) {
     recognition.stop();
-    // TODO change button text
+    recordButton.setAttribute('text', 'Record');
 
   } else {
+
+    // Reset text
+    textElement.setAttribute('text', '');
+    recordButton.setAttribute('text', 'Recording');
+    recordButton.setAttribute('btntweaks', 'textposition:0.49, 0, 0.2; textscale:1 1 1')
+
     recognition.start();
-    // TODO change button text
   }
 
 }
