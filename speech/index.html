@@ -1,0 +1,28 @@
+---
+layout: a-frame
+title: Speech
+description: Web Speech API tweet demo
+author: Peter O'Shaughnessy
+scripts: [
+  '/a-frame-demos/aframe-v0.4.0.min.js',
+  'js/aframe-bmfont-text-component.min.js',
+  'js/svrbutton_helper.js',
+  'js/svrbutton.js',
+  'js/svrtextarea.js',
+  'js/demo.js'
+]
+---
+<style>
+  body {
+    background-color: #000;
+  }
+</style>
+
+<a-scene id="scene">
+  <a-svrtextarea id="text-tweet" position="-3 3 -5" text="Tap 'Record' to begin" height="2" width="2"></a-svrtextarea>
+  <a-svrbutton id="btn-record" position="-1 1 -1.5" text="Record" color="#fb5b5b" btntweaks="textposition:0.6, 0, 0.2; textscale:1 1 1" height="0.4" width="1.2" depth="0.1" onclick="startListening()"></a-svrbutton> 
+  <a-svrbutton id="btn-tweet" position="1 1 -1.5" text="Tweet" color="#4099FF" btntweaks="textposition:0.45, 0, 0.2; textscale:1 1 1" height="0.4" width="1.2" depth="0.1" onclick="sendTweet()"></a-svrbutton>
+  <a-entity id="cameraContainer" look-controls camera position="0 1.6 0">
+    <a-cursor fuse="false" color="#FFFFFF"></a-cursor>
+  </a-entity>
+</a-scene>
