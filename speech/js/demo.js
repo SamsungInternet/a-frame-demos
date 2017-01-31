@@ -2,6 +2,7 @@ var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
+var transcript = '';
 var recognising = false;
 var recognition = new SpeechRecognition();
 
@@ -10,7 +11,6 @@ recognition.interimResults = false;
 
 recognition.onstart = function() {
   recognising = true;
-  // TODO show recording is on?
 };
 
 recognition.onerror = function(event) {
@@ -22,14 +22,24 @@ recognition.onend = function() {
 };
   
 recognition.onresult = function(event) {
-  console.log('On result', event.results);  
+  console.log('On result', event.results);
+  for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        transcript += event.results[i][0].transcript;        
+      }
+  }
+  updateTranscriptText();  
 };
+
+function updateTranscriptText() {
+  var textElement = document.getElementById('text-tweet');
+  textElement.setAttribute('text', transcript);
+}
 
 function startListening() {
 
   var recordButton = document.getElementById('btn-record');
-  var textElement = document.getElementById('text-tweet');
-
+  
   console.log('recordButton', recordButton.object3D);
 
   if (recognising) {
@@ -39,7 +49,9 @@ function startListening() {
   } else {
 
     // Reset text
-    textElement.setAttribute('text', '');
+    transcript = '';
+    updateTranscriptText();
+    
     recordButton.setAttribute('text', 'Recording');
     recordButton.setAttribute('btntweaks', 'textposition:0.49, 0, 0.2; textscale:1 1 1')
 
