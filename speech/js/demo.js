@@ -23,12 +23,14 @@ recognition.onend = function() {
   
 recognition.onresult = function(event) {
   console.log('On result', event.results);
-  for (var i = event.resultIndex; i < event.results.length; ++i) {
-      if (event.results[i].isFinal) {
-        transcript += event.results[i][0].transcript;        
-      }
+  
+  if (event.results.length) {
+    transcript = event.results[0][0].transcript;
+  } else {
+    transcript = '';
   }
-  updateTranscriptText();  
+  
+  updateTranscriptText();
 };
 
 function updateTranscriptText() {
