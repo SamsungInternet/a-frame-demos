@@ -11,7 +11,7 @@ scripts: [
 	'https://cdn.rawgit.com/mrdoob/three.js/r79/examples/js/loaders/BinaryLoader.js',
 
 	# Ocean primitive which relies on the new materials
-	'https://samsunginternet.github.io/a-frame-components/dist/ocean-plane.js'
+	'https://samsunginter.net/a-frame-components/dist/ocean-plane.js'
 ]
 ---
 
@@ -20,7 +20,7 @@ scripts: [
 	<!-- Assets -->
 
 	<a-assets>
-		<img id="night-sphere" src="a-frame-assets/360-photos/SAM_100_0063_SMALL.jpg" />
+		<img id="sky" src="https://img.gs/bbdkhfbzkk/2048x1024,stretch/https://samsunginternet.github.io/a-frame-demos/a-frame-assets/sky/CGSkies_0347_free.jpg" />
 
 		<img id="ao" src="a-frame-assets/ninja/ao.jpg" />
 		<img id="displacement" src="a-frame-assets/ninja/displacement.jpg" />
@@ -37,20 +37,20 @@ scripts: [
 		<a-entity
 			position="-2 0 0"
 			scale="0.15 0.15 0.15"
-			material="color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #night-sphere; envMapIntensity: 1.0; normalMap: #normal; normalScale: 1 -1; ambientOcclusionMapIntensity: 1.0; ambientOcclusionMap: #ao; displacementMap: #displacement; displacementScale: 2.436143; displacementBias: -0.428408;"
+			material="color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #sky; envMapIntensity: 1.0; normalMap: #normal; normalScale: 1 -1; ambientOcclusionMapIntensity: 1.0; ambientOcclusionMap: #ao; displacementMap: #displacement; displacementScale: 2.436143; displacementBias: -0.428408;"
 			bin-model="#ninja-model-js"
 		></a-entity>
 
 		<a-entity
 			geometry="primitive: torusKnot;"
 			position="2 0 0"
-			material="color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #night-sphere;"
+			material="color: lightpink; metalness:0.8; roughness:0.6; sphericalEnvMap: #sky;"
 		></a-entity>
 	</a-entity>
 
-	<a-ocean-plane material="normalMap: #water-normal; sphericalEnvMap: #night-sphere;" position="0 -2 0" ></a-ocean-plane>
+	<a-ocean-plane material="normalMap: #water-normal; sphericalEnvMap: #sky;" position="0 -2 0" ></a-ocean-plane>
 
-	<a-sky src="#night-sphere"></a-sky>
+	<a-sky src="#sky"></a-sky>
 
 </a-scene>
 
